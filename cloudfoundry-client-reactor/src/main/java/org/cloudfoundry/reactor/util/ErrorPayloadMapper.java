@@ -91,7 +91,7 @@ public final class ErrorPayloadMapper {
                 return Mono.just(response);
             }
 
-            return response.receive().aggregate().asString()
+            return response.receive().asString().singleOrEmpty()
                 .switchIfEmpty(Mono.error(new UnknownCloudFoundryException(response.status().code())))
                 .flatMap(payload -> {
                     try {
